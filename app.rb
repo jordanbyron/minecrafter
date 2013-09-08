@@ -23,7 +23,7 @@ module Minecrafter
         when "Stop"
           server.stop!
           redirect to('/')
-        when "Get server address"
+        when "Server address"
           erb "<h1><%= server.dns %></h1>"
         end
       else
