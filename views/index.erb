@@ -1,0 +1,13 @@
+<h1>
+  Server Status:
+  <span id='status'><%= server.status %></span>
+</h1>
+
+<form action="/server" method="post">
+  <div class="input-append">
+    <input type="password" class="span3" placeholder="Access Key" name="password"
+      autofocus="autofocus" />
+    <input type="submit" name="action" class="btn btn-success" value="Start" />
+    <input type="submit" name="action" class="btn btn-danger" value="Stop" />
+  </div>
+</form>
