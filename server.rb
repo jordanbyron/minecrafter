@@ -7,11 +7,11 @@ module Minecrafter
     end
 
     def status
-      @status ||= begin
-        response = connection.describe_instances('instance-id' => instance)
+      @status ||= instance_details["instanceState"]["name"]
+    end
 
-        response[:body]["reservationSet"][0]["instancesSet"][0]["instanceState"]["name"]
-      end
+    def dns
+      @dns ||= instance_details["dnsName"]
     end
 
     def start!
@@ -35,6 +35,12 @@ module Minecrafter
         aws_access_key_id:     ENV['AWS_KEY'],
         aws_secret_access_key: ENV['AWS_SECRET']
       )
+    end
+
+    def instance_details
+      response = connection.describe_instances('instance-id' => instance)
+
+      response[:body]["reservationSet"][0]["instancesSet"][0]
     end
   end
 end

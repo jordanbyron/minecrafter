@@ -4,6 +4,10 @@ module Minecrafter
       def server
         @server ||= Minecrafter::Server.new(ENV['AWS_INSTANCE'])
       end
+
+      def authorized?
+        params[:password] == ENV['MINECRAFTER_KEY']
+      end
     end
 
     get '/' do
@@ -11,16 +15,20 @@ module Minecrafter
     end
 
     post '/server' do
-      if params[:password] == ENV['MINECRAFTER_KEY']
+      if authorized?
         case params[:action]
         when "Start"
           server.start!
+          redirect to('/')
         when "Stop"
           server.stop!
+          redirect to('/')
+        when "Get server address"
+          erb "<h1><%= server.dns %></h1>"
         end
+      else
+        redirect to('/')
       end
-
-      redirect to('/')
     end
 
     post '/start' do
